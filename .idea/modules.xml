@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/languages-automata-compiler.iml" filepath="$PROJECT_DIR$/.idea/modules/languages-automata-compiler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/languages-automata-compiler_main.iml" filepath="$PROJECT_DIR$/.idea/modules/languages-automata-compiler_main.iml" group="languages-automata-compiler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/languages-automata-compiler_test.iml" filepath="$PROJECT_DIR$/.idea/modules/languages-automata-compiler_test.iml" group="languages-automata-compiler" />
+    </modules>
+  </component>
+</project>
