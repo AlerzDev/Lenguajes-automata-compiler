@@ -5,9 +5,38 @@ import bases.BaseJFrameCup;
 
 init with {:
   // INIT CODE
-  System.out.println("---------------------------------------------------------------------\n"
-                    +"|                       CODE ADDED TO SHOW TREE                     |\n"
-                    +"---------------------------------------------------------------------\n");
+  public class WindowCup extends BaseJFrame{
+
+      private int width;
+      private int height;
+      private String title;
+
+      public WindowCup(int w, int h, String t){
+            width = w;
+            height = h;
+            title = t;
+      }
+
+      protected String title() {
+          return title;
+      }
+
+      protected int width() {
+          return width;
+      }
+
+      protected int height() {
+          return height;
+      }
+
+      protected boolean visible() {
+          return true;
+      }
+
+      protected boolean resizable() {
+          return false;
+      }
+  }
 :};
 
 /*-------------DECLARATION OF TERMINALS-------------*/
@@ -36,51 +65,11 @@ program::= CodeDraw{ nextLineCode }
 nextLineCode::= lineCode nextLineCode
 nextLineCode::= lineCode
 
-//Create vars
-lineCode::= nameVar => string(s);
-lineCode::= nameVar => int(n);
-lineCode::= nameVar => float(f);
-
-n::= int;
-{:
-    int n;
-:}
-
-s::= string;
-{:
-    String s;
-:}
-
-f::= float;
-{:
-    Float f;
-:}
 
 //Create window
 lineCode::= nameVar => Window::(n,n,s);
 {:RESULT =
 
-    public class WindowCup extends BaseJFrame{
-
-            protected String title() {
-                return getTitle();
-            }
-
-            protected int width() {
-                return n;
-            }
-
-            protected int height() {
-                return n;
-            }
-
-            protected boolean visible() {
-                return true;
-            }
-
-            protected boolean resizable() {
-                return false;
-            }
-    }
+    WindowCup nameVar = new WindowCup(n, n, s);
 
 :}
