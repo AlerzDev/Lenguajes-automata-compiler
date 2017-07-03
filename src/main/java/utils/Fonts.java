@@ -3,6 +3,7 @@ package utils;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Created by alejandrolemusrodriguez on 29/06/17.
@@ -18,10 +19,12 @@ public class Fonts {
         return instance;
     }
 
-    public Font getRobotoFont(){
+    public Font getRobotoLightFont(final float size){
+
+        InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("fonts/Roboto-Light.ttf");
         Font font = null;
         try {
-            return font = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/Roboto-Regular.ttf"));
+            font = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(size);
         } catch (FontFormatException e) {
             e.printStackTrace();
         } catch (IOException e) {

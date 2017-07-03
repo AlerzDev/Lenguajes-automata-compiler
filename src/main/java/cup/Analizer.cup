@@ -1,0 +1,86 @@
+import java_cup.runtime.*;
+import javax.swing.JFrame;
+import utils.ViewUtils;
+import bases.BaseJFrameCup;
+
+init with {:
+  // INIT CODE
+  System.out.println("---------------------------------------------------------------------\n"
+                    +"|                       CODE ADDED TO SHOW TREE                     |\n"
+                    +"---------------------------------------------------------------------\n");
+:};
+
+/*-------------DECLARATION OF TERMINALS-------------*/
+
+terminal String CodeDraw, string, Window, Canvas, setPosition, setSize, setTitle, addCanvas, removeCanvas,
+                setBackgroundColor, setPosition, addFigure, removeFigure, clean, Circle, setSolidColor, setBorderColor,
+                setPosition, setRadio, Line, setColor, Rectangle, setSideSize;
+
+terminal Integer int;
+terminal String  string;
+terminal Float   float
+
+/*-------------DECLARATION OF NON TERMINALS-------------*/
+non terminal program, nextLineCode, lineCode, color, figure, nameVar, point, position;
+non terminal Integer n;
+non terminal String  s;
+non terminal Float   f;
+
+/*-------------DECLARATION OF ORIGIN-------------*/
+precedence left all;
+
+/*-------------Basic syntax-------------*/
+
+//Code structure
+program::= CodeDraw{ nextLineCode }
+nextLineCode::= lineCode nextLineCode
+nextLineCode::= lineCode
+
+//Create vars
+lineCode::= nameVar => string(s);
+lineCode::= nameVar => int(n);
+lineCode::= nameVar => float(f);
+
+n::= int;
+{:
+    int n;
+:}
+
+s::= string;
+{:
+    String s;
+:}
+
+f::= float;
+{:
+    Float f;
+:}
+
+//Create window
+lineCode::= nameVar => Window::(n,n,s);
+{:RESULT =
+
+    public class WindowCup extends BaseJFrame{
+
+            protected String title() {
+                return getTitle();
+            }
+
+            protected int width() {
+                return n;
+            }
+
+            protected int height() {
+                return n;
+            }
+
+            protected boolean visible() {
+                return true;
+            }
+
+            protected boolean resizable() {
+                return false;
+            }
+    }
+
+:}
