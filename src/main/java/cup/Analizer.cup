@@ -1,75 +1,56 @@
 import java_cup.runtime.*;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import utils.ViewUtils;
-import bases.BaseJFrameCup;
+import java.awt.*;
 
-init with {:
-  // INIT CODE
-  public class WindowCup extends BaseJFrame{
+parser code{:
 
-      private int width;
-      private int height;
-      private String title;
+    public static void main(string [])throws exception{
+        new parser(new yylex(System.in)).parser());
+    }
+    public void syntax_error(Symbols s){
+        report_error("Error de sintaxis linea:"+Integer.toString(Yylex.pos + 1\)+"%n\"+s.value);
+    }
 
-      public WindowCup(int w, int h, String t){
-            width = w;
-            height = h;
-            title = t;
-      }
-
-      protected String title() {
-          return title;
-      }
-
-      protected int width() {
-          return width;
-      }
-
-      protected int height() {
-          return height;
-      }
-
-      protected boolean visible() {
-          return true;
-      }
-
-      protected boolean resizable() {
-          return false;
-      }
-  }
 :};
 
-/*-------------DECLARATION OF TERMINALS-------------*/
 
-terminal String CodeDraw, string, Window, Canvas, setPosition, setSize, setTitle, addCanvas, removeCanvas,
-                setBackgroundColor, setPosition, addFigure, removeFigure, clean, Circle, setSolidColor, setBorderColor,
-                setPosition, setRadio, Line, setColor, Rectangle, setSideSize;
-
-terminal Integer int;
-terminal String  string;
-terminal Float   float
-
-/*-------------DECLARATION OF NON TERMINALS-------------*/
-non terminal program, nextLineCode, lineCode, color, figure, nameVar, point, position;
-non terminal Integer n;
-non terminal String  s;
-non terminal Float   f;
-
-/*-------------DECLARATION OF ORIGIN-------------*/
-precedence left all;
-
-/*-------------Basic syntax-------------*/
-
-//Code structure
-program::= CodeDraw{ nextLineCode }
-nextLineCode::= lineCode nextLineCode
-nextLineCode::= lineCode
-
-
-//Create window
-lineCode::= nameVar => Window::(n,n,s);
-{:RESULT =
-
-    WindowCup nameVar = new WindowCup(n, n, s);
+action code{:
 
 :}
+
+
+/*-------------DECLARATION OF TERMINALS-------------*/
+terminal CodeDraw,keyOpen, keyClose,parentOpen,parenClose,dobleDP, Canvas, addFigure, resizeCanvas
+         , changeBackgroundColor, coma, pointComa, attributes, Line;
+
+
+/*-------------DECLARATION OF NON TERMINALS-------------*/
+
+nonterminal program, next_line_code, line_code, create_canvas, figure, color, point;
+//Question nonterminal Object next_line_code, line_code;
+nonterminal Integer n;
+//Strucure code
+program::= CodeDraw keyOpen create_canvas next_line_code keyClose pointComa;
+next_line_code::= line_code | line_code next_line_code;
+//Create canvas
+create_canvas::= Canvas dobleDP attributes parentOpen n:width coma n:heigth coma color:c parenClose pointComa
+{:
+
+:};
+//create figure
+line_code::= Canvas dobleDP addFigure parentOpen figure parenClose pointComa;
+//create line
+figure::= Line dobleDP attributes parentOpen point coma point coma color parenClose pointComa
+{:
+
+:};
+
+n::= int:num {:RESULT = num;:};
+
+color::= Red   {:RESULT = Color.RED;   :}
+        |Black {:RESULT = Color.BLACK; :}
+        |Yellow{:RESULT = Color.YELLOW;:}
+        |Blue  {:RESULT = Color.BLUE;  :}
+        |Green {:RESULT = Color.GREEN; :};

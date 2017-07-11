@@ -107,4 +107,6 @@ public class JFrameLoading extends BaseJFrame{
     protected boolean resizable() {
         return false;
     }
+
+
 }
