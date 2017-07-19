@@ -1,22 +1,20 @@
 import java_cup.runtime.*;
 
 
-parser code{:
+parser code {:
+  Lexer lexer;
 
-    public static void main(string [])throws exception{
-            new parser(new yylex(System.in)).parser());
-        }
-        public void syntax_error(Symbols s){
-            report_error("Error de sintaxis linea:"+Integer.toString(Yylex.pos + 1\)+"%n\"+s.value);
-        }
+  public parser (java.io.Reader input) {
+    lexer = new Lexer(input);
+  }
+:};
 
-:}
-
+scan with {: return lexer.yylex(); :};
 
 /*DECLARATION OF TERMINALS*/
 
 terminal CodeDraw, keyOpen, keyClose, parentOpen, parentClose, pointComa,
-         coma, assignment, Canvas, CanvasAddFigure, CanvasBackground,
+         coma, Canvas, CanvasAddFigure, CanvasBackground,
          Line, Square, Circle;
 
 /*-------------DECLARATION OF NON TERMINALS-------------*/
@@ -33,39 +31,30 @@ nextLineCode::= lineCode nextLineCode;
 nextLineCode::= lineCode;
 
 //Create canvas
-createCanvas::= Canvas assignment parentOpen color:c coma n:width coma n:height parentClose pointComa{:
+createCanvas::= Canvas parentOpen color:c coma position coma n:width coma n:height parentClose pointComa{:
 
 :};
 
 //Adding or update attributes to the canvas
-lineCode::= CanvasAddFigure assignment parentOpen figure parentClose pointComa{:
+lineCode::= CanvasAddFigure parentOpen figure parentClose pointComa{:
 
 :};
-lineCode::= CanvasBackground assignment parentOpen color parentClose pointComa{:
+
+lineCode::= CanvasBackground parentOpen color parentClose pointComa{:
 
 :};
 
 //Create line
-figure::= Line assignment parentOpen color:c coma n:x1 coma n:y1 coma n:x2 coma n:y2 parentClose pointComa{:
+figure::= Line parentOpen color:c coma n:x1 coma n:y1 coma n:x2 coma n:y2 parentClose pointComa{:
 
 :};
 
 //Create Square
-figure::= Square assignment parentOpen color:c coma n:x coma n:y coma n:size parentClose pointComa{:
+figure::= Square parentOpen color:c coma n:x coma n:y coma n:size parentClose pointComa{:
 
 :};
 
 //Create circle
-figure::= Circle assignment parentOpen color:c coma n:x coma n:y coma n:r parentClose pointComa{:
+figure::= Circle parentOpen color:c coma n:x coma n:y coma n:r parentClose pointComa{:
 
 :};
-
-//varibles
-n::= int:num {:RESULT = num;:};
-
-color::= Red   {:RESULT = Color.RED;   :}
-        |Black {:RESULT = Color.BLACK; :}
-        |Yellow{:RESULT = Color.YELLOW;:}
-        |Blue  {:RESULT = Color.BLUE;  :}
-        |Green {:RESULT = Color.GREEN; :};
-
